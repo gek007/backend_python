@@ -1,10 +1,39 @@
 import json
 import time
-
+import functools
 import requests
 
 url = "https://api.hh.ru/vacancies"
 
+def retry(max_attempts=3, delay=1, exceptions=(Exception,)):
+    """
+    Retry decorator.
+
+    :param max_attempts: number of attempts before giving up
+    :param delay: seconds to wait between attempts
+    :param exceptions: tuple of exceptions to catch and retry on
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            attempts = 0
+            while attempts < max_attempts:
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    attempts += 1
+                    print(f"Attempt {attempts} failed: {e}")
+                    if attempts < max_attempts:
+                        time.sleep(delay)
+                    else:
+                        raise  # re-raise last exception
+
+        return wrapper
+
+    return decorator
+
+@retry(max_attempts=5, delay=2, exceptions=(ValueError,))
 def fetch_hh_vacancies(url: str, page: int = 0):
 
     query_param = {
@@ -16,6 +45,7 @@ def fetch_hh_vacancies(url: str, page: int = 0):
     resp = requests.get(url=url, params=query_param)
     if resp.status_code != 200:
         print(f"Error reply { resp.status_code= }")
+        raise ValueError(f"Error reply { resp.status_code= }")
     json_data = resp.json()
     return json_data
 
