@@ -72,6 +72,7 @@ def fetch_all_hh_vacancies(url: str):
 def main():
     res = fetch_all_hh_vacancies(url=url)
     print(f"result {res=}")
+    print(f"finish")
 
 if __name__ == "__main__":
       main()
