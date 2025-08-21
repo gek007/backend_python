@@ -5,6 +5,8 @@ import requests
 
 url = "https://api.hh.ru/vacancies"
 
+#this example
+
 def retry(max_attempts=3, delay=1, exceptions=(Exception,)):
     """
     Retry decorator.
@@ -69,8 +71,7 @@ def fetch_all_hh_vacancies(url: str):
 
 def main():
     res = fetch_all_hh_vacancies(url=url)
-    print(res)
-
+    print(f"result {res=}")
 
 if __name__ == "__main__":
       main()
