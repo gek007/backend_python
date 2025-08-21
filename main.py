@@ -5,7 +5,6 @@ import requests
 
 url = "https://api.hh.ru/vacancies"
 
-
 def fetch_hh_vacancies(url: str, page: int = 0):
 
     query_param = {
