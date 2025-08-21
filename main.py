@@ -23,16 +23,18 @@ def fetch_all_hh_vacancies(url: str):
     page = 0
     result = []
     while True:
-        print(f"Fetching page { page }")
+        print(f"Fetching page { page= }")
         res = fetch_hh_vacancies(url=url, page=page)
-        result.extend(res)
-        if page == 5:
+
+        if (page == 5) or len(res) == 0:
             break
+
+        result.extend(res)
         page += 1
         time.sleep(0.5)
 
     with open("hh_vacancies.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=4)
+        f.write(json.dumps(result, ensure_ascii=False))
 
 
 def main():
