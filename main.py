@@ -3,15 +3,16 @@ import requests
 url = "https://api.hh.ru/vacancies"
 
 
-def fetch_hh_vacancies(url: str):
+def fetch_hh_vacancies(url: str, page: int = 0):
 
     query_param = {
         "text": "diango OR fastapi OR aiohttp OR litestar OR flask",
         "per_page":100,
-        "page":0,
+        "page":page,
     }
 
-    requests.get(url=url, params=query_param)
+    resp = requests.get(url=url, params=query_param)
+    json_data = resp.json()
 
 
 
