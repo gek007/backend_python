@@ -83,9 +83,10 @@ def fetch_all_hh_vacancies(url: str):
     result = []
     while True:
         print(f"Fetching page { page= }")
+        #res -> VacancyData
         res = fetch_hh_vacancies(url=url, page=page)
 
-        if (page == 5) or len(res) == 0:
+        if (page == 5):
             break
 
         result.extend(res)
