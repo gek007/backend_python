@@ -2,8 +2,16 @@ import json
 import time
 import functools
 import requests
+import dataclasses
 
 url = "https://api.hh.ru/vacancies"
+
+
+@dataclass
+class VacancyData:
+    title: str
+    salary: Optional[str]
+    url: str
 
 #this example
 
