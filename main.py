@@ -2,9 +2,11 @@ import json
 import time
 import functools
 import requests
-import dataclasses
+from dataclasses import dataclass
+from typing import Optional
 
 url = "https://api.hh.ru/vacancies"
+
 
 
 @dataclass
@@ -57,6 +59,23 @@ def fetch_hh_vacancies(url: str, page: int = 0):
         print(f"Error reply { resp.status_code= }")
         raise ValueError(f"Error reply { resp.status_code= }")
     json_data = resp.json()
+    items = json_data["items"]
+
+    for item in items:
+
+        _salary = None
+        if item.get("salary"):
+            salary = f"{item['salary'].get('from')} - {item['salary'].get('to')} {item['salary'].get('currency')}"
+
+        vacancy = VacancyData(
+            title =item["name"],
+            salary = _salary,
+            url = item["alternate_url"],
+        )
+
+        print(vacancy)
+
+
     return json_data
 
 def fetch_all_hh_vacancies(url: str):
